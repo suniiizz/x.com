@@ -1,6 +1,6 @@
 import style from "@/app/(afterLogin)/_component/rightSearchZone.module.css";
 
-export default function SearchForm() {
+export default function SearchForm({ q }: { q?: string }) {
   return (
     <div className={style.searchBox}>
       <form className={style.search}>
