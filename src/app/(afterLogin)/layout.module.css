@@ -96,8 +96,14 @@
   height: 100%;
 }
 
-.search {
+.searchBox {
+  background-color: white;
   position: fixed;
+  height: 53px;
+  width: inherit;
+}
+
+.search {
   height: 42px;
   width: inherit;
   border-radius: 21px;
@@ -114,6 +120,8 @@
 }
 
 .search input {
+  width: inherit;
+  border-radius: 21px;
   outline: none;
   background-color: inherit;
   border: none;
