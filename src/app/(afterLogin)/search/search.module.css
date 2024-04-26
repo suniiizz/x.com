@@ -16,10 +16,12 @@
   border-color: rgb(239, 243, 244);
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  width: 600px;
+  width: 598px;
   position: fixed;
+  z-index: 1;
 }
 .searchZone {
+  padding: 0 16px;
   display: flex;
   align-items: center;
 }
@@ -27,7 +29,7 @@
 .backButton {
   width: 34px;
   height: 34px;
-  background-color: #fff;
+  background-color: transparent;
   border: none;
   border-radius: 17px;
   display: flex;
@@ -46,7 +48,7 @@
 .formZone {
   flex: 1;
   height: 53px;
-  width: 526px;
+  width: 510px;
 }
 
 .homeFixed {
