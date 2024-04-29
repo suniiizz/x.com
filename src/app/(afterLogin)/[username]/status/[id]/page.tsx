@@ -6,9 +6,11 @@ import CommentForm from "@/app/(afterLogin)/[username]/status/[id]/_component/Co
 export default function SinglePost() {
   return (
     <div className={style.main}>
-      <div className={style.header}>
-        <BackButton />
-        <h3 className={style.headerTitle}>게시하기</h3>
+      <div style={{ marginBottom: "53px" }}>
+        <div className={style.header}>
+          <BackButton />
+          <h3 className={style.headerTitle}>게시하기</h3>
+        </div>
       </div>
 
       {/* 원본 */}
