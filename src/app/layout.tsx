@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import styles from "@/app/(beforeLogin)/_component/main.module.css";
+import { MSWComponent } from "@/app/_component/MSWComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className={styles.container}>{children}</div>
+        <div className={styles.container}>
+          {children}
+          <MSWComponent />
+        </div>
       </body>
     </html>
   );
