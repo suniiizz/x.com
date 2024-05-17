@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import style from "@/app/(beforeLogin)/_component/login.module.css";
 
 export default function LoginModal() {
+  const router = useRouter();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -26,7 +27,6 @@ export default function LoginModal() {
     }
   };
 
-  const router = useRouter();
   const onClickClose = () => {
     router.back();
     // TODO: 뒤로가기가 /home이 아니면 /home으로 보내기
