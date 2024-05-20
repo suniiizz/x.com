@@ -8,8 +8,6 @@ import { useSession } from "next-auth/react";
 export default function TrendSection() {
   const { data: session } = useSession();
 
-  console.log("data", session);
-
   const pathname = usePathname();
   if (pathname === "/explore") return null;
 
