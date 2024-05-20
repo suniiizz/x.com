@@ -7,26 +7,18 @@ import ActionButtons from "@/app/(afterLogin)/_component/ActionButtons";
 import style from "@/app/(afterLogin)/_component/post.module.css";
 import PostArticle from "@/app/(afterLogin)/_component/PostArticle";
 import PostImages from "./PostImages";
+import { Post as IPost } from "@/model/Post";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
 
 type Props = {
   noImage?: boolean;
+  post: IPost;
 };
 
-export default function Post({ noImage }: Props) {
-  const target = {
-    postId: 1,
-    User: {
-      id: "elonmusk",
-      nickname: "Elon Musk",
-      image: "/yRsRRjGO.jpg",
-    },
-    content: "클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ",
-    createdAt: new Date(),
-    Images: [] as any[],
-  };
+export default function Post({ noImage, post }: Props) {
+  const target = post;
 
   if (Math.random() > 0.5 && !noImage) {
     target.Images.push(
