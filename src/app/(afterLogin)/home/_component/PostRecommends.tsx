@@ -9,6 +9,7 @@ export default function PostRecommends() {
   const { data } = useQuery<IPost[]>({
     queryKey: ["post", "recommends"],
     queryFn: getPostRecommends,
+    staleTime: 60 * 1000, //fresh -> stale
   });
 
   return data?.map((post) => <Post key={post.postId} post={post} />);
