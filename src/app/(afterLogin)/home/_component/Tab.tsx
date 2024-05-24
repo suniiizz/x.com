@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import style from "@/app/(afterLogin)/home/_component/tab.module.css";
 import { TabContext } from "@/app/(afterLogin)/home/_component/TabProvider";
 

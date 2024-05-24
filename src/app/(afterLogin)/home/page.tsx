@@ -8,10 +8,11 @@ import TabProvider from "@/app/(afterLogin)/home/_component/TabProvider";
 
 import Tab from "@/app/(afterLogin)/home/_component/Tab";
 import PostForm from "@/app/(afterLogin)/home/_component/PostForm";
-import Post from "@/app/(afterLogin)/_component/Post";
 import style from "@/app/(afterLogin)/home/home.module.css";
-import { getPostRecommends } from "./_lib/getPostRecommends";
+
 import PostRecommends from "./_component/PostRecommends";
+import TabDecider from "./_component/TabDecider";
+import { getPostRecommends } from "./_lib/getPostRecommends";
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ export default async function Home() {
         <TabProvider>
           <Tab />
           <PostForm />
+          <TabDecider />
           <PostRecommends />
         </TabProvider>
       </HydrationBoundary>
