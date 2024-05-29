@@ -8,6 +8,7 @@ import FollowRecommend from "@/app/(afterLogin)/_component/FollowRecommend";
 import RightSearchZone from "@/app/(afterLogin)/_component/RightSearchZone";
 import { auth } from "@/auth";
 import RQProvider from "./_component/RQProvider";
+import FollowRecommendSection from "./home/_component/FollowRecommendSection";
 
 export default async function AfterLoginLayout({
   children,
@@ -66,10 +67,7 @@ export default async function AfterLoginLayout({
               <TrendSection />
               <div className={style.followRecommend}>
                 <h3>팔로우 추천</h3>
-                <FollowRecommend />
-                <FollowRecommend />
-                <FollowRecommend />
-                <FollowRecommend />
+                <FollowRecommendSection />
               </div>
             </section>
           </div>

@@ -3,8 +3,13 @@
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import style from "./followRecommend.module.css";
+import { User } from "@auth/core/types";
 
-export default function FollowRecommend() {
+type Props = {
+  user: User;
+};
+
+export default function FollowRecommend({ user }: Props) {
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -13,12 +18,6 @@ export default function FollowRecommend() {
     if (!session?.user) {
       router.replace("/i/flow/login");
     }
-  };
-
-  const user = {
-    id: "elonmusk",
-    nickname: "Elon Musk",
-    image: "/yRsRRjGO.jpg",
   };
 
   return (
