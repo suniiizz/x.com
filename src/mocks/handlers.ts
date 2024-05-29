@@ -1,4 +1,4 @@
-import { delay, http, HttpResponse } from "msw";
+import { delay, http, HttpResponse, StrictResponse } from "msw";
 import { faker } from "@faker-js/faker";
 
 function generateDate() {
