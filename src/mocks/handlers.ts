@@ -240,29 +240,29 @@ export const handlers = [
       }
     );
   }),
-  //
-  // http.get("/api/posts/:postId", ({ request, params }): StrictResponse<any> => {
-  //   const { postId } = params;
-  //   if (parseInt(postId as string) > 10) {
-  //     return HttpResponse.json(
-  //       { message: "no_such_post" },
-  //       {
-  //         status: 404,
-  //       }
-  //     );
-  //   }
-  //   return HttpResponse.json({
-  //     postId,
-  //     User: User[0],
-  //     content: `${1} 게시글 아이디 ${postId}의 내용`,
-  //     Images: [
-  //       { imageId: 1, link: faker.image.urlLoremFlickr() },
-  //       { imageId: 2, link: faker.image.urlLoremFlickr() },
-  //       { imageId: 3, link: faker.image.urlLoremFlickr() },
-  //     ],
-  //     createdAt: generateDate(),
-  //   });
-  // }),
+  // 싱글 포스트
+  http.get("/api/posts/:postId", ({ request, params }): StrictResponse<any> => {
+    const { postId } = params;
+    if (parseInt(postId as string) > 10) {
+      return HttpResponse.json(
+        { message: "no_such_post" },
+        {
+          status: 404,
+        }
+      );
+    }
+    return HttpResponse.json({
+      postId,
+      User: User[0],
+      content: `${1} 게시글 아이디 ${postId}의 내용`,
+      Images: [
+        { imageId: 1, link: faker.image.urlLoremFlickr() },
+        { imageId: 2, link: faker.image.urlLoremFlickr() },
+        { imageId: 3, link: faker.image.urlLoremFlickr() },
+      ],
+      createdAt: generateDate(),
+    });
+  }),
   // 포스트 코멘트
   http.get("/api/posts/:postId/comments", ({ request, params }) => {
     const { postId } = params;
