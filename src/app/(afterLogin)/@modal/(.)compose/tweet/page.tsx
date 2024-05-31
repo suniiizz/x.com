@@ -2,19 +2,27 @@
 
 import { useRef, useState } from "react";
 import style from "./modal.module.css";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function TweetModal() {
+  const router = useRouter();
+
   const [content, setContent] = useState();
+
   const imageRef = useRef<HTMLInputElement>(null);
+
   const onSubmit = () => {};
-  const onClickClose = () => {};
+
+  const onClickClose = () => {
+    router.back();
+  };
+
   const onClickButton = () => {};
+
   const onChangeContent = () => {};
 
-  const me = {
-    id: "zerohch0",
-    image: "/5Udwvqim.jpg",
-  };
+  const { data: me } = useSession();
 
   return (
     <div className={style.modalBackground}>
@@ -35,7 +43,10 @@ export default function TweetModal() {
           <div className={style.modalBody}>
             <div className={style.postUserSection}>
               <div className={style.postUserImage}>
-                <img src={me.image} alt={me.id} />
+                <img
+                  src={me?.user?.image as string}
+                  alt={me?.user?.email as string}
+                />
               </div>
             </div>
             <div className={style.inputDiv}>

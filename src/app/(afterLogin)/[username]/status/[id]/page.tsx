@@ -43,7 +43,7 @@ export default async function Page({ params }: Props) {
         <SinglePost id={id} />
 
         {/* 답글 게시폼 */}
-        <CommentForm />
+        <CommentForm id={id} />
 
         {/* 답글 */}
         <div>
