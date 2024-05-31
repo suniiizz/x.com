@@ -49,10 +49,10 @@ export const handlers = [
     });
   }),
   // 추천 탭 포스트
-  http.get("/api/postRecommends", async ({ request }) => {
+  http.get(`/api/postRecommends`, async ({ request }) => {
     await delay(3000);
     const url = new URL(request.url);
-    const cursor = parseInt(url.searchParams.get("cursor") as string) || 0;
+    const cursor = parseInt(url.searchParams.get("cursor") as string) || 0; // 인피니트 스크롤링
     return HttpResponse.json([
       {
         postId: cursor + 1,
