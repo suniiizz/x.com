@@ -1,38 +1,22 @@
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { Suspense } from "react";
 
 import TabProvider from "@/app/(afterLogin)/home/_component/TabProvider";
-
 import Tab from "@/app/(afterLogin)/home/_component/Tab";
 import PostForm from "@/app/(afterLogin)/home/_component/PostForm";
+import TabDeciderSuspense from "./_component/TabDeciderSuspence";
 import style from "@/app/(afterLogin)/home/home.module.css";
-
-import PostRecommends from "./_component/PostRecommends";
-import TabDecider from "./_component/TabDecider";
-import { getPostRecommends } from "./_lib/getPostRecommends";
+import Loading from "./loading";
 
 export default async function Home() {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["posts", "recommends"],
-    queryFn: getPostRecommends,
-    initialPageParam: 0,
-  });
-  const dehydratedState = dehydrate(queryClient);
-
   return (
     <main className={style.main}>
-      <HydrationBoundary state={dehydratedState}>
-        <TabProvider>
-          <Tab />
-          <PostForm />
-          <TabDecider />
-          <PostRecommends />
-        </TabProvider>
-      </HydrationBoundary>
+      <TabProvider>
+        <Tab />
+        <PostForm />
+        <Suspense fallback={<Loading />}>
+          <TabDeciderSuspense />
+        </Suspense>
+      </TabProvider>
     </main>
   );
 }
