@@ -5,7 +5,7 @@ type Props = {
 // 서버 컴포넌트이므로 이 함수는 서버에서 실행된다.
 export async function getPostRecommends({ pageParam }: Props) {
   const res = await fetch(
-    `http://localhost:9090/api/posts/recommends?cursor=${pageParam}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/recommends?cursor=${pageParam}`,
     {
       next: {
         tags: ["posts", "recommends"], // 서버에서 가져온 데이터에 tag를 설정, 이후 캐시 초기화 등에 사용됨

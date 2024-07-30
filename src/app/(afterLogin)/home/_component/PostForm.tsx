@@ -6,6 +6,8 @@ import { Session } from "next-auth";
 import ReactTextareaAutosize from "react-textarea-autosize";
 
 import style from "@/app/(afterLogin)/home/_component/portForm.module.css";
+import { useQueryClient } from "@tanstack/react-query";
+import { Post } from "@/model/Post";
 
 type Props = {
   me: Session | null;
@@ -17,6 +19,7 @@ export default function PostForm({ me }: Props) {
   const [preview, setPreview] = useState<
     Array<{ dataUrl: string; file: File } | null>
   >([]);
+  const queryClient = useQueryClient();
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setContent(e.target.value);
@@ -29,11 +32,41 @@ export default function PostForm({ me }: Props) {
     preview.forEach((p) => {
       p && formData.append("images", p.file);
     });
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
-      method: "post",
-      credentials: "include",
-      body: formData,
-    });
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`,
+        {
+          method: "post",
+          credentials: "include",
+          body: formData,
+        }
+      );
+      if (response.status === 201) {
+        setContent("");
+        setPreview([]);
+        const newPost = await response.json();
+        queryClient.setQueryData(
+          ["posts", "recommends"],
+          (prevData: { pages: Post[][] }) => {
+            const shallow = { ...prevData, pages: [...prevData.pages] };
+            shallow.pages[0] = [...shallow.pages[0]];
+            shallow.pages[0].unshift(newPost);
+            return shallow;
+          }
+        );
+        queryClient.setQueryData(
+          ["posts", "followings"],
+          (prevData: { pages: Post[][] }) => {
+            const shallow = { ...prevData, pages: [...prevData.pages] };
+            shallow.pages[0] = [...shallow.pages[0]];
+            shallow.pages[0].unshift(newPost);
+            return shallow;
+          }
+        );
+      }
+    } catch (err) {
+      alert("업로드 중 오류가 발생하였습니다.");
+    }
   };
 
   const onClickButton = () => {
@@ -88,7 +121,11 @@ export default function PostForm({ me }: Props) {
           {preview.map(
             (v, index) =>
               v && (
-                <div key={index} style={{ flex: 1 }}>
+                <div
+                  key={index}
+                  style={{ flex: 1, cursor: "pointer" }}
+                  onClick={() => onRemoveImage(index)}
+                >
                   <img
                     src={v.dataUrl}
                     alt="미리보기"

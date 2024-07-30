@@ -13,9 +13,10 @@ export default function LogoutButton({ me }: Props) {
   const router = useRouter();
 
   const onLogout = () => {
-    signOut({ redirect: false }).then(() => {
-      router.replace("/");
-    });
+    // signOut({ redirect: false }).then(() => {
+    //   router.replace("/");
+    // });
+    signOut({ callbackUrl: "/" });
   };
 
   if (!me?.user) {
