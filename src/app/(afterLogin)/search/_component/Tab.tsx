@@ -10,6 +10,8 @@ export default function Tab() {
   const searchParams = useSearchParams();
 
   const onClickHot = () => {
+    setCurrent("hot");
+    
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.delete("f");
     router.replace(`/search?${newSearchParams.toString()}`);
