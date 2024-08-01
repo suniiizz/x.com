@@ -1,13 +1,19 @@
 "use client";
 
-import { ChangeEventHandler, FormEventHandler, useRef, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  FormEventHandler,
+  useRef,
+  useState,
+} from "react";
 
 import { Session } from "next-auth";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import style from "@/app/(afterLogin)/home/_component/portForm.module.css";
-import { useQueryClient } from "@tanstack/react-query";
 import { Post } from "@/model/Post";
+import style from "@/app/(afterLogin)/home/_component/portForm.module.css";
 
 type Props = {
   me: Session | null;
@@ -21,52 +27,61 @@ export default function PostForm({ me }: Props) {
   >([]);
   const queryClient = useQueryClient();
 
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setContent(e.target.value);
-  };
-
-  const onSubmit: FormEventHandler = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("content", content);
-    preview.forEach((p) => {
-      p && formData.append("images", p.file);
-    });
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`,
-        {
-          method: "post",
-          credentials: "include",
-          body: formData,
-        }
-      );
-      if (response.status === 201) {
-        setContent("");
-        setPreview([]);
-        const newPost = await response.json();
+  const mutation = useMutation({
+    mutationFn: async (e: FormEvent) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("content", content);
+      preview.forEach((p) => {
+        p && formData.append("images", p.file);
+      });
+      return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
+        method: "post",
+        credentials: "include",
+        body: formData,
+      });
+    },
+    async onSuccess(response, variable) {
+      const newPost = await response.json();
+      setContent("");
+      setPreview([]);
+      if (queryClient.getQueryData(["posts", "recommends"])) {
         queryClient.setQueryData(
           ["posts", "recommends"],
           (prevData: { pages: Post[][] }) => {
-            const shallow = { ...prevData, pages: [...prevData.pages] };
-            shallow.pages[0] = [...shallow.pages[0]];
-            shallow.pages[0].unshift(newPost);
-            return shallow;
-          }
-        );
-        queryClient.setQueryData(
-          ["posts", "followings"],
-          (prevData: { pages: Post[][] }) => {
-            const shallow = { ...prevData, pages: [...prevData.pages] };
+            const shallow = {
+              ...prevData,
+              pages: [...prevData.pages],
+            };
             shallow.pages[0] = [...shallow.pages[0]];
             shallow.pages[0].unshift(newPost);
             return shallow;
           }
         );
       }
-    } catch (err) {
-      alert("업로드 중 오류가 발생하였습니다.");
-    }
+      if (queryClient.getQueryData(["posts", "followings"])) {
+        queryClient.setQueryData(
+          ["posts", "followings"],
+          (prevData: { pages: Post[][] }) => {
+            const shallow = {
+              ...prevData,
+              pages: [...prevData.pages],
+            };
+            shallow.pages[0] = [...shallow.pages[0]];
+            shallow.pages[0].unshift(newPost);
+            return shallow;
+          }
+        );
+      }
+    },
+    onError(error) {
+      console.error(error);
+      alert("업로드 중 에러가 발생했습니다.");
+    },
+  });
+
+  const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    setContent(e.target.value);
   };
 
   const onClickButton = () => {
@@ -102,7 +117,7 @@ export default function PostForm({ me }: Props) {
   };
 
   return (
-    <form className={style.postForm} onSubmit={onSubmit}>
+    <form className={style.postForm} onSubmit={mutation.mutate}>
       <div className={style.postUserSection}>
         <div className={style.postUserImage}>
           <img

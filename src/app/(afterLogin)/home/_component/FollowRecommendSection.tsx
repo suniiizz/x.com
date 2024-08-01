@@ -1,15 +1,15 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getFollowRecommends } from "../../_lib/getFollowRecommend";
-import FollowRecommend from "../../_component/FollowRecommend";
-import { User } from "@auth/core/types";
+import { User } from "@/model/User";
+import { getFollowRecommends } from "@/app/(afterLogin)/_lib/getFollowRecommend";
+import FollowRecommend from "@/app/(afterLogin)/_component/FollowRecommend";
 
 export default function FollowRecommendSection() {
   const { data } = useQuery<User[]>({
-    queryKey: ["user", "followRecommends"],
+    queryKey: ["users", "followRecommends"],
     queryFn: getFollowRecommends,
-    staleTime: 60 * 1000, //fresh -> stale
+    staleTime: 60 * 1000, // fresh -> stale, 5분이라는 기준
     gcTime: 300 * 1000,
   });
 

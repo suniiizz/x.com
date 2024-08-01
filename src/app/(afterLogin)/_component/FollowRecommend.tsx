@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { User } from "@/model/User";
 import style from "./followRecommend.module.css";
-import { User } from "@auth/core/types";
 
 type Props = {
   user: User;
