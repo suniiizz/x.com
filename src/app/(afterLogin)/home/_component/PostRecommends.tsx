@@ -3,7 +3,6 @@
 import {
   InfiniteData,
   useInfiniteQuery,
-  useQuery,
 } from "@tanstack/react-query";
 import { getPostRecommends } from "@/app/(afterLogin)/home/_lib/getPostRecommends";
 import Post from "@/app/(afterLogin)/_component/Post";
@@ -26,6 +25,7 @@ export default function PostRecommends() {
     staleTime: 60 * 1000, // fresh -> stale, 5분이라는 기준
     gcTime: 300 * 1000,
   });
+
   const { ref, inView } = useInView({
     threshold: 0,
     delay: 0,

@@ -8,7 +8,9 @@ export const getUserPosts: QueryFunction<
 > = async ({ queryKey }) => {
   const [_1, _2, username] = queryKey;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${username}/posts`,
+    `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/api/users/${username}/posts?cursor=${0}`,
     {
       next: {
         tags: ["posts", "users", username], // 서버에서 가져온 데이터에 tag를 설정, 이후 캐시 초기화 등에 사용됨
