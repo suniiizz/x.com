@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { User } from "@/model/User";
-import BackButton from "@/app/(beforeLogin)/_component/BackButton";
+import BackButton from "@/app/(afterLogin)/_component/BackButton";
 import style from "@/app/(afterLogin)/[username]/profile.module.css";
 import { getUser } from "../_lib/getUser";
 
