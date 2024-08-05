@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import style from "@/app/(afterLogin)/_component/logoutButton.module.css";
-import { Session } from "next-auth";
 
 type Props = {
   me: Session | null;
@@ -11,12 +12,22 @@ type Props = {
 
 export default function LogoutButton({ me }: Props) {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const onLogout = () => {
-    // signOut({ redirect: false }).then(() => {
-    //   router.replace("/");
-    // });
-    signOut({ callbackUrl: "/" });
+    queryClient.invalidateQueries({
+      queryKey: ["posts"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["users"],
+    });
+    signOut({ redirect: false }).then(() => {
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/logout`, {
+        method: "post",
+        credentials: "include",
+      });
+      router.replace("/");
+    });
   };
 
   if (!me?.user) {

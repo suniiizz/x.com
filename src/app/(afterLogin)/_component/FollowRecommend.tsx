@@ -15,9 +15,7 @@ type Props = {
 export default function FollowRecommend({ user }: Props) {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
-  const followed = !!user.Followers?.find(
-    (v) => v.userId === session?.user?.email
-  );
+  const followed = !!user.Followers?.find((v) => v.id === session?.user?.email);
 
   const follow = useMutation({
     mutationFn: (userId: string) => {
@@ -39,7 +37,7 @@ export default function FollowRecommend({ user }: Props) {
         const shallow = [...value];
         shallow[index] = {
           ...shallow[index],
-          Followers: [{ userId: session?.user?.email as string }],
+          Followers: [{ id: session?.user?.email as string }],
           _count: {
             ...shallow[index]._count,
             Followers: shallow[index]._count?.Followers + 1,
@@ -74,7 +72,7 @@ export default function FollowRecommend({ user }: Props) {
         shallow[index] = {
           ...shallow[index],
           Followers: shallow[index].Followers.filter(
-            (v) => v.userId !== session?.user?.email
+            (v) => v.id !== session?.user?.email
           ),
           _count: {
             ...shallow[index]._count,
@@ -91,7 +89,7 @@ export default function FollowRecommend({ user }: Props) {
         const shallow = {
           ...value2,
           Followers: value2.Followers.filter(
-            (v) => v.userId !== session?.user?.email
+            (v) => v.id !== session?.user?.email
           ),
           _count: {
             ...value2._count,
@@ -124,7 +122,7 @@ export default function FollowRecommend({ user }: Props) {
         shallow[index] = {
           ...shallow[index],
           Followers: shallow[index].Followers.filter(
-            (v) => v.userId !== session?.user?.email
+            (v) => v.id !== session?.user?.email
           ),
           _count: {
             ...shallow[index]._count,
@@ -141,7 +139,7 @@ export default function FollowRecommend({ user }: Props) {
         const shallow = {
           ...value2,
           Followers: value2.Followers.filter(
-            (v) => v.userId !== session?.user?.email
+            (v) => v.id !== session?.user?.email
           ),
           _count: {
             ...value2._count,
@@ -161,7 +159,7 @@ export default function FollowRecommend({ user }: Props) {
         const shallow = [...value];
         shallow[index] = {
           ...shallow[index],
-          Followers: [{ userId: session?.user?.email as string }],
+          Followers: [{ id: session?.user?.email as string }],
           _count: {
             ...shallow[index]._count,
             Followers: shallow[index]._count?.Followers + 1,
@@ -176,7 +174,7 @@ export default function FollowRecommend({ user }: Props) {
       if (value2) {
         const shallow = {
           ...value2,
-          Followers: [{ userId: session?.user?.email as string }],
+          Followers: [{ id: session?.user?.email as string }],
           _count: {
             ...value2._count,
             Followers: value2._count?.Followers - 1,

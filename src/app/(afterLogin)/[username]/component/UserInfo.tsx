@@ -2,19 +2,19 @@
 
 import { MouseEventHandler } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { User } from "@/model/User";
-import { useSession } from "next-auth/react";
-import BackButton from "@/app/(afterLogin)/_component/BackButton";
+import { Session } from "next-auth";
 import { getUser } from "../_lib/getUser";
+import { User } from "@/model/User";
+import BackButton from "@/app/(afterLogin)/_component/BackButton";
 import style from "@/app/(afterLogin)/[username]/profile.module.css";
 import cx from "classnames";
 
 type Props = {
   username: string;
+  session: Session | null;
 };
 
-export default function UserInfo({ username }: Props) {
-  const { data: session } = useSession();
+export default function UserInfo({ username, session }: Props) {
   const queryClient = useQueryClient();
   const { data: user, error } = useQuery<
     User,
@@ -49,7 +49,7 @@ export default function UserInfo({ username }: Props) {
           const shallow = [...value];
           shallow[index] = {
             ...shallow[index],
-            Followers: [{ userId: session?.user?.email as string }],
+            Followers: [{ id: session?.user?.email as string }],
             _count: {
               ...shallow[index]._count,
               Followers: shallow[index]._count?.Followers + 1,
@@ -86,7 +86,7 @@ export default function UserInfo({ username }: Props) {
           shallow[index] = {
             ...shallow[index],
             Followers: shallow[index].Followers.filter(
-              (v) => v.userId !== session?.user?.email
+              (v) => v.id !== session?.user?.email
             ),
             _count: {
               ...shallow[index]._count,
@@ -104,7 +104,7 @@ export default function UserInfo({ username }: Props) {
         const shallow = {
           ...value2,
           Followers: value2.Followers.filter(
-            (v) => v.userId !== session?.user?.email
+            (v) => v.id !== session?.user?.email
           ),
           _count: {
             ...value2._count,
@@ -138,7 +138,7 @@ export default function UserInfo({ username }: Props) {
           shallow[index] = {
             ...shallow[index],
             Followers: shallow[index].Followers.filter(
-              (v) => v.userId !== session?.user?.email
+              (v) => v.id !== session?.user?.email
             ),
             _count: {
               ...shallow[index]._count,
@@ -156,7 +156,7 @@ export default function UserInfo({ username }: Props) {
         const shallow = {
           ...value2,
           Followers: value2.Followers.filter(
-            (v) => v.userId !== session?.user?.email
+            (v) => v.id !== session?.user?.email
           ),
           _count: {
             ...value2._count,
@@ -177,7 +177,7 @@ export default function UserInfo({ username }: Props) {
           const shallow = [...value];
           shallow[index] = {
             ...shallow[index],
-            Followers: [{ userId: session?.user?.email as string }],
+            Followers: [{ id: session?.user?.email as string }],
             _count: {
               ...shallow[index]._count,
               Followers: shallow[index]._count?.Followers + 1,
@@ -238,9 +238,7 @@ export default function UserInfo({ username }: Props) {
     return null;
   }
 
-  const followed = user.Followers?.find(
-    (v) => v.userId === session?.user?.email
-  );
+  const followed = user.Followers?.find((v) => v.id === session?.user?.email);
 
   const onFollow: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
