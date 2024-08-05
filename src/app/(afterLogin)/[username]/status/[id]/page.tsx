@@ -1,8 +1,4 @@
-import BackButton from "@/app/(afterLogin)/_component/BackButton";
-import style from "./singlePost.module.css";
-import CommentForm from "@/app/(afterLogin)/[username]/status/[id]/_component/CommentForm";
-import Comments from "./_component/Comments";
-import SinglePost from "./_component/SinglePost";
+import { Metadata } from "next";
 import {
   HydrationBoundary,
   QueryClient,
@@ -10,10 +6,32 @@ import {
 } from "@tanstack/react-query";
 import { getSinglePost } from "./_lib/getSinglePost";
 import { getComments } from "./_lib/getComments";
+import { getUserServer } from "../../_lib/getUserServer";
+import { getSinglePostServer } from "@/app/(afterLogin)/[username]/status/[id]/_lib/getSinglePostServer";
+import { User } from "@/model/User";
+import { Post } from "@/model/Post";
+import SinglePost from "./_component/SinglePost";
+import BackButton from "@/app/(afterLogin)/_component/BackButton";
+import CommentForm from "@/app/(afterLogin)/[username]/status/[id]/_component/CommentForm";
+import Comments from "./_component/Comments";
+import style from "./singlePost.module.css";
 
 type Props = {
-  params: { id: string };
+  params: { id: string; username: string };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const user: User = await getUserServer({
+    queryKey: ["users", params.username],
+  });
+  const post: Post = await getSinglePostServer({
+    queryKey: ["post", params.id],
+  });
+  return {
+    title: `${user.nickname} / Z`,
+    description: `${user.nickname} 프로필`,
+  };
+}
 
 export default async function Page({ params }: Props) {
   const { id } = params;

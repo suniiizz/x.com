@@ -2,7 +2,7 @@
 
 import { Post as IPost } from "@/model/Post";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getSinglePost } from "../_lib/getSinglePost";
+import { getSinglePost } from "../_lib/getSinglePost.1";
 import Post from "@/app/(afterLogin)/_component/Post";
 
 type Props = {
