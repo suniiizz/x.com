@@ -262,9 +262,35 @@ export default function ActionButtons({ white, post }: Props) {
     onSettled() {},
   });
 
-  const onClickComment = () => {};
+  const onClickComment: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    const formData = new FormData();
+    formData.append("content", "답글 테스트");
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/comments`,
+      {
+        method: "post",
+        credentials: "include",
+        body: formData,
+      }
+    );
+  };
 
-  const onClickRepost = () => {};
+  const onClickRepost: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    if (!reposted) {
+      const formData = new FormData();
+      formData.append("content", "재게시 테스트");
+      fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/reposts`,
+        {
+          method: "post",
+          credentials: "include",
+          body: formData,
+        }
+      );
+    }
+  };
 
   const onClickHeart: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
