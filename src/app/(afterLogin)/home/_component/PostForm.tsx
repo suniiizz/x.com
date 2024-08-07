@@ -7,7 +7,6 @@ import ReactTextareaAutosize from "react-textarea-autosize";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Post } from "@/model/Post";
-import { Hashtag } from "@/model/Hashtag";
 import style from "@/app/(afterLogin)/home/_component/portForm.module.css";
 
 type Props = {

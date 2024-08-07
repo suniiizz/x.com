@@ -45,6 +45,7 @@ export default async function AfterLoginLayout({
                       <svg
                         viewBox="0 0 24 24"
                         aria-hidden="true"
+                        width={24}
                         className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1472mwg r-lrsllp"
                       >
                         <g>
